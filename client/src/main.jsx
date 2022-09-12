@@ -10,8 +10,8 @@ import Homepage from "./views/Homepage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
-        <Navbar />
         <BrowserRouter>
+            <Navbar />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="homepage" element={<Homepage />} />

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Box, Stack, Menu, MenuItem, Button } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
+// import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user.value);
@@ -17,7 +19,9 @@ const Navbar = () => {
 
     return (
         <Stack direction="row" justifyContent={"space-between"} alignItems={"center"} p={2}>
-            <ForumIcon />
+            <NavLink to={user ? "/homepage" : "/"}>
+                <ForumIcon />
+            </NavLink>
             {user && (
                 <Box>
                     <Button

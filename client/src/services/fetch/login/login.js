@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setToken } from "../../utils/setToken";
 /**
  *
  * @param {String} email
@@ -7,8 +8,15 @@ import axios from "axios";
 export default async function login(email, password) {
     const URL = import.meta.env.VITE_API_BACKEND;
 
-    const response = await axios.post(`${URL}/api/login`, {
-        email: email,
-        password: password,
-    });
+    try {
+        const { data } = await axios.post(`${URL}/login`, {
+            email: email.trim(),
+            password: password.trim(),
+        });
+        setToken(data.token);
+        return [data, null];
+    } catch (error) {
+        const message = error.response.data.error;
+        return [null, message];
+    }
 }

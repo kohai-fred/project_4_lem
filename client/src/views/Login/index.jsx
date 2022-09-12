@@ -1,13 +1,19 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import login from "../../services/fetch/login/login";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/user";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
 const Login = () => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const handleSubmit = (e) => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        login(email, password);
+        const [data, error] = await login(email, password);
+
+        dispatch(setUser(data));
     };
 
     return (

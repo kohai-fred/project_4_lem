@@ -14,7 +14,7 @@ export default async function login(email, password) {
             password: password.trim(),
         });
         setToken(data.token);
-        return [data, null];
+        return [{ ...data.user, token: data.token }, null];
     } catch (error) {
         const message = error.response.data.error;
         return [null, message];

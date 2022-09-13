@@ -7,7 +7,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Navbar from "./Components/NavBar";
 import Login from "./views/Login";
 import Homepage from "./views/Homepage";
-import Collaborateurs from "./views/Collaborateurs";
+import Collaborators from "./views/Collaborators";
 import "./main.css";
 import { Box } from "@mui/material";
 
@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="homepage" element={<Homepage />} />
-                    <Route path="collaborateurs" element={<Collaborateurs />} />
+                    <Route path="collaborateurs" element={<Collaborators />} />
                 </Routes>
             </Box>
         </BrowserRouter>

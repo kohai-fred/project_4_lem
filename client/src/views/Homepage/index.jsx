@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import ProfileCard from "../../Components/ProfileCard";
-import getRandomUser from "../../services/fetch/randomUser";
 import { Button, Stack, Typography } from "@mui/material";
 import PanToolIcon from "@mui/icons-material/PanTool";
+import getWithAxios from "../../services/fetch/getWithAxios";
 
 const Homepage = () => {
     const [user, setUser] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const randomUser = async () => {
-        const [data, error] = await getRandomUser();
+        const [data, error] = await getWithAxios("/collaborateurs/random");
         if (error) return setErrorMessage(error);
         setUser(data);
     };
@@ -24,9 +24,17 @@ const Homepage = () => {
                 </Typography>
             )}
             {user && (
-                <Stack m="auto" id="TOTO">
+                <Stack
+                    spacing={6}
+                    sx={{
+                        position: "absolute",
+                        top: "25%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                    }}
+                >
                     <ProfileCard user={user} />
-                    <Button variant="contained" startIcon={<PanToolIcon />} onClick={randomUser}>
+                    <Button variant="contained" startIcon={<PanToolIcon color="yellow" />} onClick={randomUser}>
                         Dire bonjour à quelqu'un d'autre
                     </Button>
                 </Stack>

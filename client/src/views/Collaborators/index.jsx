@@ -1,6 +1,5 @@
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
-import { current } from "@reduxjs/toolkit";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import ProfileCard from "../../Components/ProfileCard";
 import getWithAxios from "../../services/fetch/getWithAxios";
 import GenericFormControl from "./GenericFormControl";
@@ -8,16 +7,19 @@ import GenericFormControl from "./GenericFormControl";
 const Collaborators = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [collaborators, setCollaborators] = useState(null);
+    const [filteredCollaborators, setFilteredCollaborators] = useState(collaborators);
+    const [inputSearch, setInputSearch] = useState("");
     const [filter, setFilter] = useState("");
     const [category, setCategory] = useState("");
     const [categories, setCategories] = useState(null);
-    const filters = ["", "nom", "localisation"];
+    const filters = ["", "Nom", "Localisation"];
 
     useMemo(() => {
         async function getCollab() {
             const [data, error] = await getWithAxios("/collaborateurs");
             if (error) return setErrorMessage(error);
             setCollaborators(data);
+            setFilteredCollaborators(data);
         }
         getCollab();
     }, []);
@@ -35,6 +37,22 @@ const Collaborators = () => {
         setCategories(data);
     }, [collaborators]);
 
+    //* Search by category
+    useEffect(() => {
+        if (!category) return;
+        const data = collaborators.reduce((acc, curr) => {
+            if (curr.service !== category) return acc;
+            acc.push(curr);
+            return acc;
+        }, []);
+        setFilteredCollaborators(data);
+    }, [category]);
+
+    //* Resets the list of collaborators
+    useEffect(() => {
+        if (!inputSearch && !category && !filter) setFilteredCollaborators(collaborators);
+    }, [inputSearch, category, filter]);
+
     return (
         <Stack>
             <Typography textAlign={"center"} fontSize={24}>
@@ -43,7 +61,7 @@ const Collaborators = () => {
 
             <Divider color="aliceBlue" />
             {errorMessage && <Typography>{errorMessage}</Typography>}
-            {collaborators && (
+            {filteredCollaborators && (
                 <Stack spacing={6} mt={2}>
                     <Stack spacing={3}>
                         <TextField
@@ -55,6 +73,7 @@ const Collaborators = () => {
                                 background:
                                     "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
                             }}
+                            onChange={(e) => setInputSearch(e.target.value)}
                         />
 
                         <GenericFormControl
@@ -72,7 +91,7 @@ const Collaborators = () => {
                     </Stack>
                     <Box>
                         <Stack spacing={6} marginX="auto" width={"fit-content"}>
-                            {collaborators.map((collaborator) => {
+                            {filteredCollaborators.map((collaborator) => {
                                 return <ProfileCard user={collaborator} key={collaborator.id} />;
                             })}
                         </Stack>

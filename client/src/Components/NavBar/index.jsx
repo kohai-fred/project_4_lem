@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Avatar, Box, Stack, Menu, MenuItem, Button } from "@mui/material";
+import { Avatar, Box, Stack, Button } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
-// import { NavLink } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import PopupMenuProfile from "../PopupMenuProfile";
+import { useEffect } from "react";
+import getWithAxios from "../../services/fetch/getWithAxios";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user.value);
@@ -17,8 +19,21 @@ const Navbar = () => {
         setAnchorEl(null);
     };
 
+    useEffect(() => {
+        if (!user) return;
+        console.log("USER", user);
+    }, [user]);
     return (
-        <Stack direction="row" justifyContent={"space-between"} alignItems={"center"} p={2}>
+        <Stack
+            direction="row"
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            p={2}
+            mb={4}
+            sx={{
+                background: "linear-gradient(113deg, rgba(159,216,242,1) 0%, rgba(26,143,171,1) 45%)",
+            }}
+        >
             <NavLink to={user ? "/homepage" : "/"}>
                 <ForumIcon />
             </NavLink>
@@ -33,19 +48,12 @@ const Navbar = () => {
                     >
                         <Avatar alt={user.firstname} src={user.photo} />
                     </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
+                    <PopupMenuProfile
                         open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                        }}
-                    >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </Menu>
+                        handleClose={handleClose}
+                        anchorEl={anchorEl}
+                        isAdmin={user.isAdmin}
+                    />
                 </Box>
             )}
         </Stack>

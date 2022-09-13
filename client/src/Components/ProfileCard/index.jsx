@@ -4,6 +4,8 @@ import { Box } from "@mui/system";
 import CakeIcon from "@mui/icons-material/Cake";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import ImageCard from "./ImageCard";
+import InfoCard from "./InfoCard";
 
 const ProfileCard = ({ user }) => {
     const fullName = `${user.firstname} ${user.lastname}`;
@@ -20,46 +22,22 @@ const ProfileCard = ({ user }) => {
                 position: "relative",
                 borderRadius: "1rem",
                 boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.6)",
-                width: "300px",
+                maxWidth: "65vw",
+                minWidth: "200px",
                 backgroundColor: "#fff",
-                minHeight: "350px",
+                minHeight: "400px",
             }}
             padding={2}
             spacing={2}
+            justifyContent="center"
         >
             <Box
                 sx={{
                     width: "11rem",
-                    margin: "-35px auto 0",
+                    margin: "-35px auto 35px",
                 }}
             >
-                <Box position={"relative"}>
-                    <img
-                        src={user.photo}
-                        alt={fullName}
-                        style={{
-                            boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.4)",
-                            borderRadius: "1rem",
-                            aspectRatio: "1/1",
-                            width: "100%",
-                        }}
-                    />
-                    <Box
-                        position={"absolute"}
-                        sx={{
-                            top: "15px",
-                            right: "-8px",
-                            padding: "0.30em 0.55em",
-                            borderRadius: "5px",
-                            backgroundColor: "#600b28",
-                            boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.6)",
-                        }}
-                    >
-                        <Typography variant="body-2" textAlign={"center"} color="#fff">
-                            {user.service}
-                        </Typography>
-                    </Box>
-                </Box>
+                <ImageCard user={user} fullName={fullName} />
             </Box>
             <Typography
                 variant="h1"
@@ -76,26 +54,7 @@ const ProfileCard = ({ user }) => {
             <Typography textAlign={"center"} color="#666666">
                 {address}
             </Typography>
-            <Stack direction={"column"}>
-                <BlockInfo txt={user.email}>
-                    <AlternateEmailIcon />
-                </BlockInfo>
-                <BlockInfo txt={user.phone}>
-                    <PhoneInTalkIcon />
-                </BlockInfo>
-                <BlockInfo txt={`${user.birthdate} (${age(birthdate)} ans)`}>
-                    <CakeIcon />
-                </BlockInfo>
-            </Stack>
-        </Stack>
-    );
-};
-
-const BlockInfo = ({ txt, children }) => {
-    return (
-        <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            {children}
-            <Typography color="#666666">{txt}</Typography>
+            <InfoCard user={user} />
         </Stack>
     );
 };

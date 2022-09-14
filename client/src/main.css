@@ -13,3 +13,11 @@ body {
     background-size: cover;
     backdrop-filter: brightness(50%) blur(1px);
 }
+
+a,
+a:visited {
+    color: #212121;
+}
+a {
+    text-decoration: none;
+}

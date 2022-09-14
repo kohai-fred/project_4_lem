@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Menu, MenuItem, Divider, ListItemIcon, Avatar } from "@mui/material";
+import { Menu, MenuItem, Divider, ListItemIcon, Avatar, Link } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
 import PersonAdd from "@mui/icons-material/PersonAdd";
@@ -50,6 +50,14 @@ const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin }) => {
                     Liste
                 </MenuItem>
             </NavLink>
+            <NavLink to={"formulaire"}>
+                <MenuItem>
+                    <ListItemIcon>
+                        <Settings fontSize="small" />
+                    </ListItemIcon>
+                    Modifier ses infos
+                </MenuItem>
+            </NavLink>
             {/* <MenuItem>
                 <Avatar /> Profile
             </MenuItem>
@@ -64,12 +72,6 @@ const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin }) => {
                     Créer un utilisateur
                 </MenuItem>
             )}
-            <MenuItem>
-                <ListItemIcon>
-                    <Settings fontSize="small" />
-                </ListItemIcon>
-                Paramètres
-            </MenuItem>
             <Divider />
             <MenuItem>
                 <ListItemIcon>

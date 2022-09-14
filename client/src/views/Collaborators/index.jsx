@@ -1,57 +1,57 @@
-import { Box, Divider, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
-import { useMemo, useState, useEffect } from "react";
+import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useCategories } from "../../../hooks/useCategories";
+import { useCollaborateurs } from "../../../hooks/useCollaborateurs";
 import ProfileCard from "../../Components/ProfileCard";
-import getWithAxios from "../../services/fetch/getWithAxios";
+import cleanUpSpecialChars from "../../services/utils/cleanUpSpecialChar";
+import { getUsersByNameAndLocation } from "../../services/utils/search/getUsersByNameAndLocation";
+import { reduceByCollaboratorsCategory } from "../../services/utils/search/reduceByCollaboratorsCategory";
+import unauthorizedChar from "../../services/utils/unauthorizedChar";
 import GenericFormControl from "./GenericFormControl";
 
 const Collaborators = () => {
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [collaborators, setCollaborators] = useState(null);
-    const [filteredCollaborators, setFilteredCollaborators] = useState(collaborators);
-    const [inputSearch, setInputSearch] = useState("");
-    const [filter, setFilter] = useState("");
+    const filters = ["Nom", "Localisation"];
+    const [collaborators, filteredCollaborators, errorMessage, setFilteredCollaborators, setErrorMessage] =
+        useCollaborateurs();
+    const categories = useCategories(collaborators);
     const [category, setCategory] = useState("");
-    const [categories, setCategories] = useState(null);
-    const filters = ["", "Nom", "Localisation"];
-
-    useMemo(() => {
-        async function getCollab() {
-            const [data, error] = await getWithAxios("/collaborateurs");
-            if (error) return setErrorMessage(error);
-            setCollaborators(data);
-            setFilteredCollaborators(data);
-        }
-        getCollab();
-    }, []);
-
-    //* Get all categories.
-    useMemo(() => {
-        if (!collaborators) return;
-        const data = collaborators.reduce(
-            (acc, current) => {
-                if (!acc.includes(current.service)) acc.push(current.service);
-                return acc;
-            },
-            [""]
-        );
-        setCategories(data);
-    }, [collaborators]);
-
-    //* Search by category
-    useEffect(() => {
-        if (!category) return;
-        const data = collaborators.reduce((acc, curr) => {
-            if (curr.service !== category) return acc;
-            acc.push(curr);
-            return acc;
-        }, []);
-        setFilteredCollaborators(data);
-    }, [category]);
+    const [inputSearch, setInputSearch] = useState("");
+    const [filter, setFilter] = useState(filters[0]);
 
     //* Resets the list of collaborators
     useEffect(() => {
-        if (!inputSearch && !category && !filter) setFilteredCollaborators(collaborators);
-    }, [inputSearch, category, filter]);
+        if (!inputSearch && !category) setFilteredCollaborators(collaborators);
+    }, [inputSearch, category]);
+
+    //* Search
+    const checkToHaveData = (data) => {
+        if (data.length === 0) setErrorMessage("Aucun résultat...");
+        setFilteredCollaborators(data);
+    };
+
+    useEffect(() => {
+        //* Search by category
+        if (!category || inputSearch) return;
+        const data = reduceByCollaboratorsCategory(collaborators);
+        checkToHaveData(data);
+    }, [category, inputSearch]);
+
+    useEffect(() => {
+        if (!inputSearch) return;
+        const cleanStr = cleanUpSpecialChars(inputSearch);
+        if (unauthorizedChar(cleanStr)) {
+            setErrorMessage(`Charactère non autorisé.`);
+            return;
+        }
+        if (errorMessage) setErrorMessage("");
+
+        const results = getUsersByNameAndLocation(collaborators, filter, cleanStr);
+
+        if (!category) return checkToHaveData(results);
+        const data = reduceByCollaboratorsCategory(results);
+
+        checkToHaveData(data);
+    }, [inputSearch, filter, category]);
 
     return (
         <Stack>
@@ -60,44 +60,40 @@ const Collaborators = () => {
             </Typography>
 
             <Divider color="aliceBlue" />
-            {errorMessage && <Typography>{errorMessage}</Typography>}
-            {filteredCollaborators && (
-                <Stack spacing={6} mt={2}>
-                    <Stack spacing={3}>
-                        <TextField
-                            id="search"
-                            label="search"
-                            variant="outlined"
-                            sx={{
-                                borderRadius: "5px",
-                                background:
-                                    "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
-                            }}
-                            onChange={(e) => setInputSearch(e.target.value)}
-                        />
 
-                        <GenericFormControl
-                            label={"Rechercher par :"}
-                            data={filters}
-                            value={filter}
-                            setFunc={setFilter}
-                        />
-                        <GenericFormControl
-                            label={"Catégorie"}
-                            data={categories}
-                            value={category}
-                            setFunc={setCategory}
-                        />
-                    </Stack>
-                    <Box>
-                        <Stack spacing={6} marginX="auto" width={"fit-content"}>
-                            {filteredCollaborators.map((collaborator) => {
+            <Stack spacing={6} mt={2}>
+                <Stack
+                    spacing={{ xs: 3, sm: "none" }}
+                    sx={{ flexDirection: { xs: "column", sm: "row" }, gap: { sm: "15px" } }}
+                >
+                    <TextField
+                        id="search"
+                        label="search"
+                        variant="filled"
+                        sx={{
+                            flex: { sm: 1 },
+                            borderRadius: "5px",
+                            background:
+                                "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
+                        }}
+                        value={inputSearch}
+                        onChange={(e) => setInputSearch(e.target.value)}
+                        error={errorMessage ? true : false}
+                    />
+
+                    <GenericFormControl label={"Rechercher par :"} data={filters} value={filter} setFunc={setFilter} />
+                    <GenericFormControl label={"Catégorie"} data={categories} value={category} setFunc={setCategory} />
+                </Stack>
+                <Box>
+                    <Stack spacing={6} marginX="auto" width={"fit-content"}>
+                        {filteredCollaborators &&
+                            filteredCollaborators.map((collaborator) => {
                                 return <ProfileCard user={collaborator} key={collaborator.id} />;
                             })}
-                        </Stack>
-                    </Box>
-                </Stack>
-            )}
+                        {errorMessage && <Typography color={"darkred"}>{errorMessage}</Typography>}
+                    </Stack>
+                </Box>
+            </Stack>
         </Stack>
     );
 };

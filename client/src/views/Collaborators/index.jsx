@@ -7,7 +7,8 @@ import cleanUpSpecialChars from "../../services/utils/cleanUpSpecialChar";
 import { getUsersByNameAndLocation } from "../../services/utils/search/getUsersByNameAndLocation";
 import { reduceByCollaboratorsCategory } from "../../services/utils/search/reduceByCollaboratorsCategory";
 import unauthorizedChar from "../../services/utils/unauthorizedChar";
-import GenericFormControlSelect from "../../Components/Collaborators/GenericFormControlSelect";
+import GenericFormControlSelect from "../../Components/Form/GenericFormControlSelect";
+import GenericInputs from "../../Components/Form/GenericInputs";
 
 const Collaborators = () => {
     const filters = ["Nom", "Localisation"];
@@ -32,7 +33,7 @@ const Collaborators = () => {
     useEffect(() => {
         //* Search by category
         if (!category || inputSearch) return;
-        const data = reduceByCollaboratorsCategory(collaborators);
+        const data = reduceByCollaboratorsCategory(collaborators, category);
         checkToHaveData(data);
     }, [category, inputSearch]);
 
@@ -48,7 +49,7 @@ const Collaborators = () => {
         const results = getUsersByNameAndLocation(collaborators, filter, cleanStr);
 
         if (!category) return checkToHaveData(results);
-        const data = reduceByCollaboratorsCategory(results);
+        const data = reduceByCollaboratorsCategory(results, category);
 
         checkToHaveData(data);
     }, [inputSearch, filter, category]);
@@ -66,21 +67,12 @@ const Collaborators = () => {
                     spacing={{ xs: 3, sm: "none" }}
                     sx={{ flexDirection: { xs: "column", sm: "row" }, gap: { sm: "15px" } }}
                 >
-                    <TextField
-                        id="search"
-                        label="search"
-                        variant="filled"
-                        sx={{
-                            flex: { sm: 1 },
-                            borderRadius: "5px",
-                            background:
-                                "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
-                        }}
+                    <GenericInputs
+                        label={"search"}
                         value={inputSearch}
-                        onChange={(e) => setInputSearch(e.target.value)}
-                        error={errorMessage ? true : false}
+                        setInput={setInputSearch}
+                        error={errorMessage}
                     />
-
                     <GenericFormControlSelect
                         label={"Rechercher par :"}
                         data={filters}

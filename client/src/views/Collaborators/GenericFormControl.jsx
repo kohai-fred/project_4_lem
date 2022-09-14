@@ -1,12 +1,12 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 
 const GenericFormControl = ({ label, data, value, setFunc }) => {
     return (
         <FormControl
-            fullWidth
             variant="filled"
             sx={{
+                width: { xs: "100%", sm: "auto" },
                 m: 1,
                 minWidth: 120,
                 borderRadius: "5px",
@@ -27,9 +27,11 @@ const GenericFormControl = ({ label, data, value, setFunc }) => {
                     color: "#212121",
                 }}
             >
-                {data.map((name) => (
+                {data?.map((name) => (
                     <MenuItem key={name} value={name}>
-                        {name}
+                        <Box sx={{ minHeight: "20px" }} id="TOTO">
+                            {name}
+                        </Box>
                     </MenuItem>
                 ))}
             </Select>

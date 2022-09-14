@@ -9,18 +9,20 @@ import Login from "./views/Login";
 import Homepage from "./views/Homepage";
 import Collaborators from "./views/Collaborators";
 import "./main.css";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <BrowserRouter>
             <Navbar />
             <Box p={4}>
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="homepage" element={<Homepage />} />
-                    <Route path="collaborateurs" element={<Collaborators />} />
-                </Routes>
+                <Container maxWidth="xl">
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="homepage" element={<Homepage />} />
+                        <Route path="collaborateurs" element={<Collaborators />} />
+                    </Routes>
+                </Container>
             </Box>
         </BrowserRouter>
     </Provider>

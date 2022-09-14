@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 
-const GenericFormControl = ({ label, data, value, setFunc }) => {
+const GenericFormControlSelect = ({ label, data, value, setFunc }) => {
     return (
         <FormControl
             variant="filled"
@@ -39,4 +39,4 @@ const GenericFormControl = ({ label, data, value, setFunc }) => {
     );
 };
 
-export default GenericFormControl;
+export default GenericFormControlSelect;

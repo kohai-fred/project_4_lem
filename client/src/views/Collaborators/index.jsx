@@ -1,13 +1,13 @@
-import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Divider, Stack, TextField, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useCategories } from "../../../hooks/useCategories";
 import { useCollaborateurs } from "../../../hooks/useCollaborateurs";
-import ProfileCard from "../../Components/ProfileCard";
+import CollaboratorsList from "../../Components/Collaborators/CollaboratorsList";
 import cleanUpSpecialChars from "../../services/utils/cleanUpSpecialChar";
 import { getUsersByNameAndLocation } from "../../services/utils/search/getUsersByNameAndLocation";
 import { reduceByCollaboratorsCategory } from "../../services/utils/search/reduceByCollaboratorsCategory";
 import unauthorizedChar from "../../services/utils/unauthorizedChar";
-import GenericFormControl from "./GenericFormControl";
+import GenericFormControlSelect from "../../Components/Collaborators/GenericFormControlSelect";
 
 const Collaborators = () => {
     const filters = ["Nom", "Localisation"];
@@ -81,18 +81,20 @@ const Collaborators = () => {
                         error={errorMessage ? true : false}
                     />
 
-                    <GenericFormControl label={"Rechercher par :"} data={filters} value={filter} setFunc={setFilter} />
-                    <GenericFormControl label={"Catégorie"} data={categories} value={category} setFunc={setCategory} />
+                    <GenericFormControlSelect
+                        label={"Rechercher par :"}
+                        data={filters}
+                        value={filter}
+                        setFunc={setFilter}
+                    />
+                    <GenericFormControlSelect
+                        label={"Catégorie"}
+                        data={categories}
+                        value={category}
+                        setFunc={setCategory}
+                    />
                 </Stack>
-                <Box>
-                    <Stack spacing={6} marginX="auto" width={"fit-content"}>
-                        {filteredCollaborators &&
-                            filteredCollaborators.map((collaborator) => {
-                                return <ProfileCard user={collaborator} key={collaborator.id} />;
-                            })}
-                        {errorMessage && <Typography color={"darkred"}>{errorMessage}</Typography>}
-                    </Stack>
-                </Box>
+                <CollaboratorsList filteredCollaborators={filteredCollaborators} errorMessage={errorMessage} />
             </Stack>
         </Stack>
     );

@@ -4,19 +4,22 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../features/user";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import FormBase from "../../Components/Form/FormBase";
+import InputUseForm from "../../Components/Form/InputUseForm";
 
 const Login = () => {
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
     const [messageError, setMessageError] = useState();
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!email || !password) return setMessageError("Tous les champs sont obligatoire.");
-        const [data, error] = await login(email, password);
+    const onSubmit = async (input) => {
+        const [data, error] = await login(input.email, input.password);
         if (error) return setMessageError(error);
         dispatch(setUser(data));
         navigate("/homepage");
@@ -24,7 +27,7 @@ const Login = () => {
 
     return (
         <Stack>
-            <Typography variant="h1" textAlign={"center"}>
+            <Typography variant="h1" textAlign={"center"} fontSize={"clamp(24px, 8vw ,6rem)"}>
                 Connexion
             </Typography>
             {messageError && (
@@ -32,23 +35,23 @@ const Login = () => {
                     {messageError}
                 </Typography>
             )}
-            <Box component={"form"} onSubmit={handleSubmit}>
-                <Stack>
-                    <TextField
-                        id="email"
-                        label="Email"
-                        placeholder="Votre email"
-                        onChange={(e) => setEmail(e.target.value)}
+
+            <Box mt={"6vh"}>
+                <FormBase handleSubmit={handleSubmit(onSubmit)} txtButton={"Se connecter"}>
+                    <InputUseForm
+                        label={"Email"}
+                        register={register("email", { required: "L'email est obligatoire" })}
+                        errors={errors}
+                        name={"email"}
                     />
-                    <TextField
-                        id="password"
-                        label="Mot de passe"
+                    <InputUseForm
+                        label={"Mot de passe"}
+                        register={register("password", { required: "Le mot de passe est obligatoire" })}
+                        errors={errors}
+                        name={"password"}
                         type="password"
-                        autoComplete="current-password"
-                        onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button type="submit">Se connecter</Button>
-                </Stack>
+                </FormBase>
             </Box>
         </Stack>
     );

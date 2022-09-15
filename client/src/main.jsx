@@ -45,6 +45,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                                 </Protected>
                             }
                         />
+                        <Route
+                            path="formulaire/:id"
+                            element={
+                                <Protected>
+                                    <Form />
+                                </Protected>
+                            }
+                        />
                     </Routes>
                 </Container>
             </Box>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setToken } from "../../utils/setToken";
+import { setLocalStorage } from "../../utils/setLocalStorage";
 /**
  *
  * @param {String} email
@@ -13,7 +13,7 @@ export default async function login(email, password) {
             email: email.trim(),
             password: password.trim(),
         });
-        setToken(data.token);
+        setLocalStorage(data.token, data.user.id, data.user.isAdmin);
         return [{ ...data.user, token: data.token }, null];
     } catch (error) {
         const message = error.response.data.error;

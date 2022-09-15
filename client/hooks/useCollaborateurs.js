@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import getWithAxios from "../src/services/fetch/getWithAxios";
+import axiosInstance from "../src/services/fetch/axiosInstance";
 
 export const useCollaborateurs = () => {
     const [collaborators, setCollaborators] = useState(null);
@@ -8,7 +8,8 @@ export const useCollaborateurs = () => {
 
     useEffect(() => {
         async function getCollab() {
-            const [data, error] = await getWithAxios("/collaborateurs");
+            const [data, error] = await axiosInstance("/collaborateurs");
+            console.log("🚀 ~ file: useCollaborateurs.js ~ line 12 ~ getCollab ~ data", data);
             if (error) return setErrorMessage(error);
             setCollaborators(data);
             setFilteredCollaborators(data);

@@ -12,7 +12,7 @@ const FormBase = ({ handleSubmit, txtButton, children }) => {
             <Box></Box>
             {children}
             <Stack justifyContent={"center"} alignItems={"center"}>
-                <Button type={"submit"} variant="contained" sx={{ width: "70%", marginTop: "60px" }} size="large">
+                <Button type="submit" variant="contained" sx={{ width: "70%", marginTop: "60px" }} size="large">
                     {txtButton}
                 </Button>
             </Stack>

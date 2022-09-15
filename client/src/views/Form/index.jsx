@@ -1,13 +1,14 @@
-import { FormGroup, Stack, Button, Box, Typography, Divider } from "@mui/material";
+import { Box, Typography, Divider } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import GenericFormControlSelect from "../../Components/Form/GenericFormControlSelect";
+import { useForm } from "react-hook-form";
 import FormBase from "../../Components/Form/FormBase";
-import GenericInputs from "../../Components/Form/GenericInputs";
+import InputUseForm from "../../Components/Form/InputUseForm";
+import SelectUseForm from "../../Components/Form/SelectUseForm";
 
 const userTemplate = {
     gender: "male",
-    firstname: "Owen",
+    firstname: "Clive",
     lastname: "Lopez",
     email: "owen.lopez@example.com",
     phone: "02-37-79-78-39",
@@ -23,23 +24,15 @@ const services = ["Client", "Marketing", "Technique"];
 
 const Form = () => {
     const user = useSelector((state) => state.user.value) || userTemplate;
-    const [gender, setGender] = useState(genders[0]);
-    const [service, setService] = useState(services[0]);
-    const [firstname, setFirstname] = useState(user.firstname);
-    const [lastname, setLastname] = useState(user.lastname);
-    const [email, setEmail] = useState(user.email);
-    const [password, setPassword] = useState(user.password);
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [phone, setPhone] = useState(user.phone);
-    const [birthdate, setBirthdate] = useState(user.birthdate);
-    const [city, setCity] = useState(user.city);
-    const [country, setCountry] = useState(user.country);
-    const [photo, setPhoto] = useState(user.photo);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const [error, setError] = useState(false);
-
-    const handleSubmit = (e) => {
+    const onSubmit = (data, e) => {
         e.preventDefault();
+        console.log("🚀 ~ file: index.jsx ~ line 56 ~ onSubmit ~ data", data);
     };
     return (
         <>
@@ -49,57 +42,75 @@ const Form = () => {
             <Box m={"25px 0px 75px"}>
                 <Divider color="#fff" />
             </Box>
-            <FormBase handleSubmit={handleSubmit} txtButton={"Modifier"}>
-                <GenericFormControlSelect label={"Civilité"} data={genders} value={gender} setFunc={setGender} />
-                <GenericFormControlSelect label={"Catégorie"} data={services} value={service} setFunc={setService} />
-                <GenericInputs label={"Nom"} value={firstname} setInput={setFirstname} required={true} error={false} />
-                <GenericInputs label={"Prénom"} value={lastname} setInput={setLastname} required={true} error={error} />
-                <GenericInputs
-                    label={"Email"}
-                    value={email}
-                    setInput={setEmail}
-                    required={true}
-                    error={error}
-                    type={"email"}
+            <FormBase handleSubmit={handleSubmit(onSubmit)} txtButton={"Modifier"}>
+                {/* <GenericFormControlSelect label={"Civilité"} data={genders} value={gender} setFunc={setGender} />
+                <GenericFormControlSelect label={"Catégorie"} data={services} value={service} setFunc={setService} /> */}
+                <SelectUseForm label={"Civilité"} data={genders} register={register("services")} />
+                <SelectUseForm label={"Catégorie"} data={services} register={register("services")} />
+                <InputUseForm
+                    label={"Prénom"}
+                    defaultValue={user.firstname}
+                    register={register("firstname", { required: "Le prénom est obligatoire" })}
+                    errors={errors}
+                    name={"firstname"}
                 />
-                <GenericInputs
+                <InputUseForm
+                    label={"Nom"}
+                    defaultValue={user.lastname}
+                    register={register("lastname", { required: "Le nom est obligatoire" })}
+                    errors={errors}
+                    name={"lastname"}
+                />
+                <InputUseForm
                     label={"Mot de passe"}
-                    value={password}
-                    setInput={setPassword}
-                    error={error}
-                    type={"password"}
+                    register={register("password")}
+                    errors={errors}
+                    name={"password"}
+                    type="password"
                 />
-                <GenericInputs
+                <InputUseForm
                     label={"Confirmation"}
-                    value={confirmPassword}
-                    setInput={setConfirmPassword}
-                    error={error}
-                    type={"password"}
+                    register={register("confirmPassword")}
+                    errors={errors}
+                    name={"confirmPassword"}
+                    type="password"
                 />
-                <GenericInputs
+                <InputUseForm
                     label={"Téléphone"}
-                    value={phone}
-                    setInput={setPhone}
-                    required={true}
-                    error={error}
-                    type={"tel"}
+                    defaultValue={user.phone}
+                    register={register("phone", { required: "Le numéro de tel est obligatoire" })}
+                    errors={errors}
+                    name={"phone"}
+                    type="tel"
                 />
-                <GenericInputs
+                <InputUseForm
                     label={"Date de naissance"}
-                    value={birthdate}
-                    setInput={setBirthdate}
-                    required={true}
-                    error={error}
-                    type={"date"}
+                    defaultValue={user.birthdate}
+                    register={register("birthdate", { required: "La date de naissance est obligatoire" })}
+                    errors={errors}
+                    name={"birthdate"}
+                    type="date"
                 />
-                <GenericInputs label={"Ville"} value={city} setInput={setCity} required={true} error={error} />
-                <GenericInputs label={"Pays"} value={country} setInput={setCountry} required={true} error={error} />
-                <GenericInputs
+                <InputUseForm
+                    label={"Ville"}
+                    defaultValue={user.city}
+                    register={register("city", { required: "Le nom de la ville est obligatoire" })}
+                    errors={errors}
+                    name={"city"}
+                />
+                <InputUseForm
+                    label={"Pays"}
+                    defaultValue={user.country}
+                    register={register("country", { required: "Le nom du pays est obligatoire" })}
+                    errors={errors}
+                    name={"country"}
+                />
+                <InputUseForm
                     label={"URL de la photo"}
-                    value={photo}
-                    setInput={setPhoto}
-                    required={true}
-                    error={error}
+                    defaultValue={user.photo}
+                    register={register("photo", { required: "L'URL de la photo est obligatoire" })}
+                    errors={errors}
+                    name={"photo"}
                 />
             </FormBase>
         </>

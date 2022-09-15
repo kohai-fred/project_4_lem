@@ -11,6 +11,7 @@ import Collaborators from "./views/Collaborators";
 import "./main.css";
 import { Box, Container } from "@mui/material";
 import Form from "./views/Form";
+import Protected from "./Components/Protected/Protected";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
@@ -20,9 +21,30 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Container maxWidth="xl">
                     <Routes>
                         <Route path="/" element={<Login />} />
-                        <Route path="homepage" element={<Homepage />} />
-                        <Route path="collaborateurs" element={<Collaborators />} />
-                        <Route path="formulaire" element={<Form />} />
+                        <Route
+                            path="homepage"
+                            element={
+                                <Protected>
+                                    <Homepage />
+                                </Protected>
+                            }
+                        />
+                        <Route
+                            path="collaborateurs"
+                            element={
+                                <Protected>
+                                    <Collaborators />
+                                </Protected>
+                            }
+                        />
+                        <Route
+                            path="formulaire"
+                            element={
+                                <Protected>
+                                    <Form />
+                                </Protected>
+                            }
+                        />
                     </Routes>
                 </Container>
             </Box>

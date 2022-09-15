@@ -1,8 +1,22 @@
 import axios from "axios";
-import { getToken } from "../utils/getToken";
+import { getLocalStorage } from "../utils/getLocalStorage";
 
-export const axios_instance = axios.create({
-    baseURL: import.meta.env.VITE_API_BACKEND,
-    timeout: 2000,
-    headers: { Authorization: `Bearer ${getToken()}` },
-});
+/**
+ * @param {String} route "/routeName"
+ * @param {Object} conf
+ * @returns {[data, error]}
+ */
+export default async function axiosInstance(route, conf = { method: "get" }) {
+    const localSto = getLocalStorage();
+    const URL = import.meta.env.VITE_API_BACKEND;
+    try {
+        const { data } = await axios(`${URL + route}`, {
+            ...conf,
+            headers: { Authorization: localSto ? `Bearer ${localSto.token}` : "" },
+        });
+        return [data, null];
+    } catch (error) {
+        console.log("ERROR", error);
+        return [null, error.response.data.error];
+    }
+}

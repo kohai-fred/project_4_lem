@@ -4,8 +4,18 @@ import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import ListIcon from "@mui/icons-material/List";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/user";
+import { useNavigate } from "react-router-dom";
 
-const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin }) => {
+const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin, id }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const logout = () => {
+        localStorage.removeItem("projet_intranet");
+        dispatch(setUser());
+        navigate("/");
+    };
     return (
         <Menu
             anchorEl={anchorEl}
@@ -50,7 +60,7 @@ const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin }) => {
                     Liste
                 </MenuItem>
             </NavLink>
-            <NavLink to={"formulaire"}>
+            <NavLink to={`formulaire/${id}`}>
                 <MenuItem>
                     <ListItemIcon>
                         <Settings fontSize="small" />
@@ -58,12 +68,7 @@ const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin }) => {
                     Modifier ses infos
                 </MenuItem>
             </NavLink>
-            {/* <MenuItem>
-                <Avatar /> Profile
-            </MenuItem>
-            <MenuItem>
-                <Avatar /> My account
-            </MenuItem> */}
+
             {isAdmin && (
                 <MenuItem>
                     <ListItemIcon>
@@ -73,7 +78,7 @@ const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin }) => {
                 </MenuItem>
             )}
             <Divider />
-            <MenuItem>
+            <MenuItem onClick={logout}>
                 <ListItemIcon>
                     <Logout fontSize="small" />
                 </ListItemIcon>

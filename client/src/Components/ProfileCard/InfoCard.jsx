@@ -1,9 +1,10 @@
-import { Stack, Typography, Box } from "@mui/material";
+import { Stack, Typography, Box, Button } from "@mui/material";
 import CakeIcon from "@mui/icons-material/Cake";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import { Link } from "react-router-dom";
 
-const InfoCard = ({ user }) => {
+const InfoCard = ({ user, connectedIsAdmin }) => {
     // *Calculate user age
     function age(birthday) {
         birthday = new Date(birthday);
@@ -21,6 +22,16 @@ const InfoCard = ({ user }) => {
             <BlockInfo txt={`${user.birthdate} (${age(new Date(user.birthdate))} ans)`}>
                 <CakeIcon />
             </BlockInfo>
+            {connectedIsAdmin && (
+                <Stack direction={"row"} justifyContent="center" spacing={2} mt={3} mb={2}>
+                    <Link to={`/formulaire/${user.id}`}>
+                        <Button variant="contained">Éditer</Button>
+                    </Link>
+                    <Button variant="contained" color="error">
+                        Supprimer
+                    </Button>
+                </Stack>
+            )}
         </Stack>
     );
 };

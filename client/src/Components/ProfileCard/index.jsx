@@ -1,21 +1,14 @@
-import React from "react";
-import { Card, CardMedia, Typography, Stack } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import CakeIcon from "@mui/icons-material/Cake";
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
-import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import ImageCard from "./ImageCard";
 import InfoCard from "./InfoCard";
+import { useSelector } from "react-redux";
 
 const ProfileCard = ({ user }) => {
+    const connectedUser = useSelector((state) => state.user.value);
     const fullName = `${user.firstname} ${user.lastname}`;
     const address = `${user.city}, ${user.country}`;
-    const birthdate = new Date(user.birthdate);
 
-    function age(birthday) {
-        birthday = new Date(birthday);
-        return new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
-    }
     return (
         <Stack
             sx={{
@@ -56,7 +49,7 @@ const ProfileCard = ({ user }) => {
             <Typography textAlign={"center"} color="#666666">
                 {address}
             </Typography>
-            <InfoCard user={user} />
+            <InfoCard user={user} connectedIsAdmin={connectedUser.isAdmin} />
         </Stack>
     );
 };

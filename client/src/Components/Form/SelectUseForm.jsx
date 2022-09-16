@@ -1,6 +1,12 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
-
+/**
+ *
+ * @param {String} label
+ * @param {Function} register function of "react-hook-form"
+ * @param {[String]} data
+ * @returns
+ */
 const SelectUseForm = ({ label, register, data }) => {
     return (
         <FormControl

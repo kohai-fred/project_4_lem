@@ -2,13 +2,13 @@ import { useMemo, useState } from "react";
 import ProfileCard from "../../Components/ProfileCard";
 import { Button, Stack, Typography } from "@mui/material";
 import PanToolIcon from "@mui/icons-material/PanTool";
-import getWithAxios from "../../services/fetch/getWithAxios";
+import axiosInstance from "../../services/fetch/axiosInstance";
 
 const Homepage = () => {
     const [user, setUser] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const randomUser = async () => {
-        const [data, error] = await getWithAxios("/collaborateurs/random");
+        const [data, error] = await axiosInstance("/collaborateurs/random");
         if (error) return setErrorMessage(error);
         setUser(data);
     };

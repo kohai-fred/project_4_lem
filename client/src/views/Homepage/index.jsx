@@ -3,10 +3,13 @@ import ProfileCard from "../../Components/ProfileCard";
 import { Button, Stack, Typography } from "@mui/material";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import axiosInstance from "../../services/fetch/axiosInstance";
+import JSConfetti from "js-confetti";
 
 const Homepage = () => {
     const [user, setUser] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+    const jsConfetti = new JSConfetti();
+
     const randomUser = async () => {
         const [data, error] = await axiosInstance("/collaborateurs/random");
         if (error) return setErrorMessage(error);
@@ -15,6 +18,11 @@ const Homepage = () => {
     useMemo(() => {
         randomUser();
     }, []);
+
+    useMemo(() => {
+        if (!user) return;
+        jsConfetti.addConfetti();
+    }, [user]);
 
     return (
         <div>

@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <BrowserRouter>
             <Navbar />
-            <Box p={4} pb={20}>
+            <Box px={4} py={{ xs: 4, sm: 8 }}>
                 <Container maxWidth="xl">
                     <Routes>
                         <Route path="/" element={<Login />} />

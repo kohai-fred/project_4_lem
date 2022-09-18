@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import login from "../../services/fetch/login/login";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/user";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormBase from "../../Components/Form/FormBase";
 import InputUseForm from "../../Components/Form/InputUseForm";
 import { getLocalStorage } from "../../services/utils/getLocalStorage";
+import { cssMUI } from "../../services/utils/generiqueCssMUI";
+import image from "../../assets/odoo.png";
+import ErrorMessage from "../../Components/error";
 
 const Login = () => {
     const localSto = getLocalStorage();
@@ -33,16 +36,21 @@ const Login = () => {
 
     return (
         <Stack>
-            <Typography variant="h1" textAlign={"center"} fontSize={"clamp(24px, 8vw ,6rem)"}>
-                Connexion
-            </Typography>
-            {messageError && (
-                <Typography variant="h5" textAlign={"center"} color="#ba000d">
-                    {messageError}
+            <Stack alignItems={"center"} direction={{ sm: "row" }} gap={{ xs: "15px" }} mx="auto">
+                <Typography variant="h1" sx={[cssMUI.pageTitle]}>
+                    Bienvenue sur
                 </Typography>
-            )}
+                <Box>
+                    <img src={image} style={{ height: "clamp(36px, 5vw, 6em)" }} />
+                </Box>
+            </Stack>
+            {messageError && <ErrorMessage message={messageError} />}
 
-            <Box mt={"6vh"}>
+            <Box mt={"clamp(36px, 8vw, 6em)"}>
+                <Typography textAlign={"center"} mb={3}>
+                    Veuillez vous connecter
+                </Typography>
+
                 <FormBase handleSubmit={handleSubmit(onSubmit)} txtButton={"Se connecter"}>
                     <InputUseForm
                         label={"Email"}

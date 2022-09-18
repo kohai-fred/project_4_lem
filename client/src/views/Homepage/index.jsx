@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import ProfileCard from "../../Components/ProfileCard";
-import { Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import axiosInstance from "../../services/fetch/axiosInstance";
 import JSConfetti from "js-confetti";
 import ErrorMessage from "../../Components/error";
+import { cssMUI } from "../../services/utils/generiqueCssMUI";
 
 const Homepage = () => {
     const [user, setUser] = useState(null);
@@ -26,25 +27,20 @@ const Homepage = () => {
     }, [user]);
 
     return (
-        <div>
+        <>
             {errorMessage && <ErrorMessage message={errorMessage} />}
             {user && (
-                <Stack
-                    spacing={6}
-                    sx={{
-                        position: "absolute",
-                        top: "25%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                    }}
-                >
-                    <ProfileCard user={user} />
-                    <Button variant="contained" startIcon={<PanToolIcon color="yellow" />} onClick={randomUser}>
-                        Dire bonjour à quelqu'un d'autre
-                    </Button>
+                <Stack justifyContent={"center"} alignItems={"center"} gap={8}>
+                    <Typography sx={[cssMUI.pageTitle]}>Bonjour</Typography>
+                    <Stack spacing={6}>
+                        <ProfileCard user={user} />
+                        <Button variant="contained" startIcon={<PanToolIcon color="yellow" />} onClick={randomUser}>
+                            Dire bonjour à quelqu'un d'autre
+                        </Button>
+                    </Stack>
                 </Stack>
             )}
-        </div>
+        </>
     );
 };
 

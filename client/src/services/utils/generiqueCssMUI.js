@@ -10,7 +10,7 @@ export const cssMUI = {
     },
     pageTitle: {
         textAlign: "center",
-        fontSize: "clamp(24px, 6vw ,6em)",
+        fontSize: "clamp(36px, 6vw ,6em)",
         color: colorLight,
         fontWeight: "400",
         letterSpacing: "0.065em",
@@ -19,7 +19,7 @@ export const cssMUI = {
     errorTitle: {
         color: colorError,
         fontFamily: fontFamily,
-        fontSize: "clamp(16px, 5vw , 4em)",
+        fontSize: "clamp(16px, 5vw , 24px)",
         textAlign: "center",
     },
     input: {

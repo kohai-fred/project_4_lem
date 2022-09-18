@@ -5,7 +5,7 @@ import ProfileCard from "../../Components/ProfileCard";
 const CollaboratorsList = ({ filteredCollaborators, errorMessage }) => {
     return (
         <Box>
-            <Stack spacing={6} marginX="auto" width={"fit-content"} display={{ sm: "none" }} id="STACK">
+            <Stack spacing={6} marginX="auto" display={{ sm: "none" }}>
                 {filteredCollaborators &&
                     filteredCollaborators.map((collaborator) => {
                         return <ProfileCard user={collaborator} key={collaborator.id} />;

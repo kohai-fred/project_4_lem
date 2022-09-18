@@ -15,8 +15,9 @@ const ProfileCard = ({ user }) => {
                 position: "relative",
                 borderRadius: "1rem",
                 boxShadow: "inset 9px 9px 18px #7d7d7d,inset -9px -9px 18px #ffffff",
-                maxWidth: "65vw",
-                minWidth: "200px",
+                // maxWidth: "65vw",
+                // minWidth: "200px",
+                width: "100%",
                 backgroundColor: "#fff",
                 minHeight: "400px",
             }}

@@ -70,12 +70,14 @@ const PopupMenuProfile = ({ open, handleClose, anchorEl, isAdmin, id }) => {
             </NavLink>
 
             {isAdmin && (
-                <MenuItem>
-                    <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Créer un utilisateur
-                </MenuItem>
+                <NavLink to={"formulaire"}>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <PersonAdd fontSize="small" />
+                        </ListItemIcon>
+                        Créer un utilisateur
+                    </MenuItem>
+                </NavLink>
             )}
             <Divider />
             <MenuItem onClick={logout}>

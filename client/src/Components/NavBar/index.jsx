@@ -4,8 +4,6 @@ import { Avatar, Box, Stack, Button } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 import { NavLink } from "react-router-dom";
 import PopupMenuProfile from "../PopupMenuProfile";
-import { useEffect } from "react";
-import getWithAxios from "../../services/fetch/getWithAxios";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user.value);
@@ -19,10 +17,6 @@ const Navbar = () => {
         setAnchorEl(null);
     };
 
-    useEffect(() => {
-        if (!user) return;
-        console.log("USER", user);
-    }, [user]);
     return (
         <Stack
             direction="row"
@@ -32,6 +26,11 @@ const Navbar = () => {
             mb={4}
             sx={{
                 background: "linear-gradient(113deg, rgba(159,216,242,1) 0%, rgba(26,143,171,1) 45%)",
+                position: "sticky",
+                top: "0",
+                zIndex: "10",
+                boxShadow:
+                    "0px 8px 15px 0px rgba(0,0,0,0.69), inset 15px 15px 31px #167a91,inset -15px -15px 31px #1ea4c5",
             }}
         >
             <NavLink to={user ? "/homepage" : "/"}>
@@ -53,6 +52,7 @@ const Navbar = () => {
                         handleClose={handleClose}
                         anchorEl={anchorEl}
                         isAdmin={user.isAdmin}
+                        id={user.id}
                     />
                 </Box>
             )}

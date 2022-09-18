@@ -7,13 +7,13 @@ import { getLocalStorage } from "../../services/utils/getLocalStorage";
 
 const Protected = ({ children }) => {
     const localSto = getLocalStorage();
-    const navigate = useNavigate();
     const { id } = useParams();
-    const location = useLocation();
-
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
     const [isConnected, setIsConnected] = useState(false);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const gettingUser = async () => {
         const [data, error] = await getUser(localSto.id);
@@ -24,13 +24,10 @@ const Protected = ({ children }) => {
 
     useEffect(() => {
         if (!localSto) return navigate("/");
-        if (user && location.pathname === "/") return navigate("/");
         if (user) return setIsConnected(true);
 
         gettingUser();
     }, [user]);
-
-    if (!localSto && location.pathname === "/") return <>{children}</>;
 
     if (!isConnected) return;
 

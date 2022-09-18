@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import login from "../../services/fetch/login/login";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/user";
@@ -7,8 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormBase from "../../Components/Form/FormBase";
 import InputUseForm from "../../Components/Form/InputUseForm";
+import { getLocalStorage } from "../../services/utils/getLocalStorage";
 
 const Login = () => {
+    const localSto = getLocalStorage();
     const [messageError, setMessageError] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -17,6 +19,10 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+
+    useEffect(() => {
+        if (localSto) return navigate("/homepage");
+    }, []);
 
     const onSubmit = async (input) => {
         const [data, error] = await login(input.email, input.password);

@@ -1,5 +1,6 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import React from "react";
+import { cssMUI } from "../../services/utils/generiqueCssMUI";
 
 const InputUseForm = ({ label, type = "text", defaultValue, register, errors, name, onHandler }) => {
     return (
@@ -19,7 +20,7 @@ const InputUseForm = ({ label, type = "text", defaultValue, register, errors, na
                 onKeyUp={onHandler}
                 {...register}
             />
-            <Typography variant="caption" color={"darkred"}>
+            <Typography variant="caption" color={[cssMUI.color.error]}>
                 {errors[name]?.message}
             </Typography>
         </Stack>

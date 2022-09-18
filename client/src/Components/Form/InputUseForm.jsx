@@ -10,12 +10,12 @@ const InputUseForm = ({ label, type = "text", defaultValue, register, errors, na
                 label={label}
                 type={type}
                 variant="filled"
-                sx={{
-                    flex: { sm: 1 },
-                    borderRadius: "5px",
-                    background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
-                }}
+                sx={
+                    ({
+                        flex: { sm: 1 },
+                    },
+                    [cssMUI.input])
+                }
                 defaultValue={defaultValue}
                 onKeyUp={onHandler}
                 {...register}

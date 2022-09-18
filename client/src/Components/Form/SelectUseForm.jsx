@@ -1,5 +1,6 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
+import { cssMUI } from "../../services/utils/generiqueCssMUI";
 /**
  *
  * @param {String} label
@@ -11,14 +12,14 @@ const SelectUseForm = ({ label, register, data, defaultValue }) => {
     return (
         <FormControl
             variant="filled"
-            sx={{
-                width: { xs: "100%", sm: "auto" },
-                m: 1,
-                minWidth: 120,
-                borderRadius: "5px",
-                background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
-            }}
+            sx={
+                ({
+                    width: { xs: "100%", sm: "auto" },
+                    m: 1,
+                    minWidth: 120,
+                },
+                [cssMUI.input])
+            }
         >
             <InputLabel id={label + "-label"} sx={{ color: "primary" }}>
                 {label}

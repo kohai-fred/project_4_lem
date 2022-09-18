@@ -22,4 +22,8 @@ export const cssMUI = {
         fontSize: "clamp(16px, 5vw , 4em)",
         textAlign: "center",
     },
+    input: {
+        borderRadius: "5px",
+        background: "linear-gradient(180deg, rgba(255,255,255,0.24833683473389356) 0%, rgba(255,255,255,1) 50%)",
+    },
 };

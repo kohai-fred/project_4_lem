@@ -7,7 +7,7 @@ import React from "react";
  * @param {[String]} data
  * @returns
  */
-const SelectUseForm = ({ label, register, data }) => {
+const SelectUseForm = ({ label, register, data, defaultValue }) => {
     return (
         <FormControl
             variant="filled"
@@ -27,7 +27,7 @@ const SelectUseForm = ({ label, register, data }) => {
                 labelId={label + "-label"}
                 id={label + "-label"}
                 label={label}
-                defaultValue={data[0]}
+                defaultValue={defaultValue}
                 sx={{
                     color: "#212121",
                 }}

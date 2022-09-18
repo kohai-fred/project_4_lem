@@ -28,7 +28,6 @@ const Form = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const [count, setCount] = useState(0);
-    const startLocation = structuredClone(location);
     const jsConfetti = new JSConfetti();
 
     const {
@@ -36,7 +35,6 @@ const Form = () => {
         handleSubmit,
         formState: { errors },
         setError,
-        clearErrors,
         getValues,
         setValue,
     } = useForm();
@@ -94,7 +92,9 @@ const Form = () => {
         if (isEdit) {
             const [resEdit, errEdit] = await editUser(cleanedData, id);
             resEdit ? setCollaborator(resEdit.collaborateur) : setErrorMessage("Une erreur est survenue");
+            return;
         }
+
         const [resAdd, errAdd] = await addUser(cleanedData);
         resAdd ? setCollaborator(resAdd.collaborateur) : setErrorMessage("Une erreur est survenue");
     };

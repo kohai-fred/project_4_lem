@@ -27,3 +27,22 @@ export const deleteUser = async (id) => {
     });
     return [response, error];
 };
+
+export default async function login(data) {
+    const [response, error] = await axiosInstance("/login", {
+        method: "post",
+        data: { ...data },
+    });
+    return [response, error];
+    try {
+        const { data } = await axios.post(`${URL}/login`, {
+            email: email.trim(),
+            password: password.trim(),
+        });
+        setLocalStorage(data.token, data.user.id, data.user.isAdmin);
+        return [{ ...data.user, token: data.token }, null];
+    } catch (error) {
+        const message = error.response.data.error;
+        return [null, message];
+    }
+}

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import login from "../../services/fetch/login/login";
+// import login from "../../services/fetch/login/login";
+import login from "../../services/fetch";
+
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/user";
 import { Box, Stack, Typography } from "@mui/material";
@@ -8,6 +10,7 @@ import { useForm } from "react-hook-form";
 import FormBase from "../../Components/Form/FormBase";
 import InputUseForm from "../../Components/Form/InputUseForm";
 import { getLocalStorage } from "../../services/utils/getLocalStorage";
+import { setLocalStorage } from "../../services/utils/setLocalStorage";
 import { cssMUI } from "../../services/utils/generiqueCssMUI";
 import image from "../../assets/odoo.png";
 import ErrorMessage from "../../Components/error";
@@ -28,9 +31,11 @@ const Login = () => {
     }, []);
 
     const onSubmit = async (input) => {
-        const [data, error] = await login(input.email, input.password);
+        // const [data, error] = await login(input.email, input.password);
+        const [data, error] = await login({ email: input.email.trim(), password: input.password.trim() });
         if (error) return setMessageError(error);
-        dispatch(setUser(data));
+        setLocalStorage(data.token, data.user.id, data.user.isAdmin);
+        dispatch(setUser({ ...data.user, token: data.token }));
         navigate("/homepage");
     };
 

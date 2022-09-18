@@ -17,6 +17,6 @@ export default async function axiosInstance(route, conf = { method: "get" }) {
         return [data, null];
     } catch (error) {
         console.log("ERROR", error);
-        return [null, error.response.data.error];
+        return [null, error.response.data?.error];
     }
 }

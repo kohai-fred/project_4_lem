@@ -4,6 +4,7 @@ import { Avatar, Box, Stack, Button } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 import { NavLink } from "react-router-dom";
 import PopupMenuProfile from "../PopupMenuProfile";
+import logo from "../../assets/odoo_logo.png";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user.value);
@@ -34,7 +35,7 @@ const Navbar = () => {
             }}
         >
             <NavLink to={user ? "/homepage" : "/"}>
-                <ForumIcon />
+                <img src={logo} />
             </NavLink>
             {user && (
                 <Box>

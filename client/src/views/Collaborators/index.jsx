@@ -56,16 +56,28 @@ const Collaborators = () => {
 
     return (
         <Stack>
-            <Typography textAlign={"center"} fontSize={24}>
+            <Typography textAlign={"center"} fontSize={"clamp(24px, 8vw ,6rem)"} sx={{ lineHeight: "1.2em" }}>
                 Liste des collaborateurs
             </Typography>
 
-            <Divider color="aliceBlue" />
+            <Divider
+                color="aliceBlue"
+                sx={{
+                    marginBottom: { xs: "40px", sm: "60px" },
+                    width: "clamp(65vw, 80vw, 1200px)",
+                    marginInline: "auto",
+                }}
+            />
 
-            <Stack spacing={6} mt={2}>
+            <Stack spacing={10}>
                 <Stack
                     spacing={{ xs: 3, sm: "none" }}
-                    sx={{ flexDirection: { xs: "column", sm: "row" }, gap: { sm: "15px" } }}
+                    sx={{
+                        flexDirection: { xs: "column", sm: "row" },
+                        gap: { sm: "15px" },
+                        width: "65vw",
+                        marginInline: "auto",
+                    }}
                 >
                     <GenericInputs
                         label={"search"}

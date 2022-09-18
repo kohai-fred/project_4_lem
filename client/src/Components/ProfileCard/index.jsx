@@ -14,7 +14,7 @@ const ProfileCard = ({ user }) => {
             sx={{
                 position: "relative",
                 borderRadius: "1rem",
-                boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.6)",
+                boxShadow: "inset 9px 9px 18px #7d7d7d,inset -9px -9px 18px #ffffff",
                 maxWidth: "65vw",
                 minWidth: "200px",
                 backgroundColor: "#fff",
@@ -27,7 +27,7 @@ const ProfileCard = ({ user }) => {
             <Box
                 sx={{
                     width: "11rem",
-                    margin: "-35px auto 35px",
+                    margin: "-45px auto 10px",
                 }}
             >
                 <ImageCard user={user} fullName={fullName} />

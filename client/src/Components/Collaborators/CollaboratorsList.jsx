@@ -12,11 +12,11 @@ const CollaboratorsList = ({ filteredCollaborators, errorMessage }) => {
                     })}
                 {errorMessage && <Typography color={"darkred"}>{errorMessage}</Typography>}
             </Stack>
-            <Grid container spacing={6} display={{ xs: "none", sm: "flex" }} id="GRID">
+            <Grid container spacing={8} display={{ xs: "none", sm: "flex" }}>
                 {filteredCollaborators &&
                     filteredCollaborators.map((collaborator) => {
                         return (
-                            <Grid item sm={6} md={4} lg={3} key={collaborator.id}>
+                            <Grid item sm={6} lg={4} xl={3} key={collaborator.id}>
                                 <ProfileCard user={collaborator} />
                             </Grid>
                         );

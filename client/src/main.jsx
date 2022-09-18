@@ -12,12 +12,13 @@ import "./main.css";
 import { Box, Container } from "@mui/material";
 import Form from "./views/Form";
 import Protected from "./Components/Protected/Protected";
+import Modal from "./Components/Modal";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <BrowserRouter>
             <Navbar />
-            <Box p={4}>
+            <Box p={4} pb={20}>
                 <Container maxWidth="xl">
                     <Routes>
                         <Route path="/" element={<Login />} />
@@ -56,6 +57,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     </Routes>
                 </Container>
             </Box>
+            <Modal></Modal>
         </BrowserRouter>
     </Provider>
 );

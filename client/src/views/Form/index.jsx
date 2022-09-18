@@ -12,6 +12,7 @@ import SelectUseForm from "../../Components/Form/SelectUseForm";
 import { handleChangePhone } from "../../services/utils/form/handleChangePhone";
 import { cleanData } from "../../services/utils/form/cleanData";
 import { cssMUI } from "../../services/utils/generiqueCssMUI";
+import ErrorMessage from "../../Components/error";
 
 const GENDERS = ["male", "female"];
 const SERVICES = ["Client", "Marketing", "Technique"];
@@ -108,7 +109,7 @@ const Form = () => {
             <Box m={"25px 0px 75px"}>
                 <Divider color="#fff" />
             </Box>
-            {errorMessage && <Typography sx={[cssMUI.errorTitle]}>{errorMessage}</Typography>}
+            {errorMessage && <ErrorMessage message={errorMessage} />}
             {user && (
                 <FormBase handleSubmit={handleSubmit(onSubmit)} txtButton={isEdit ? "Modifier" : "Ajouter"}>
                     <SelectUseForm

@@ -4,6 +4,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import axiosInstance from "../../services/fetch/axiosInstance";
 import JSConfetti from "js-confetti";
+import ErrorMessage from "../../Components/error";
 
 const Homepage = () => {
     const [user, setUser] = useState(null);
@@ -26,11 +27,7 @@ const Homepage = () => {
 
     return (
         <div>
-            {errorMessage && (
-                <Typography variant="h5" textAlign={"center"}>
-                    {errorMessage}
-                </Typography>
-            )}
+            {errorMessage && <ErrorMessage message={errorMessage} />}
             {user && (
                 <Stack
                     spacing={6}
